@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension version="1.0.0" type="plugin" group="vmpayment" method="upgrade">
+    <name>Pagamastarde</name>
+    <creationDate>November 4 2015</creationDate>
+    <author>PagaMasTarde</author>
+    <authorUrl>https://www.pagamastarde.com/</authorUrl>
+    <copyright>Copyright (C) 2015 Paga+Tarde</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <version>3</version>
+    <description>Paga+Tarde Plugin</description>
+
+    <files>
+        <filename plugin="pagamastarde">pagamastarde.php</filename>
+        <folder>language</folder>
+        <folder>pagamastarde</folder>
+    </files>
+
+    <vmconfig>
+		<fields name="params">
+            <fieldset name="payment" addfieldpath="/administrator/components/com_virtuemart/fields">
+			   <field name="pagamastarde_env" type="radio" scope="com_virtuemart" default="0" label="VMPAYMENT_PAGAMASTARDE_ENV" description="VMPAYMENT_PAGAMASTARDE_ENV">
+					<option value="test">Test</option>
+					<option value="real">Real</option>
+			   </field>
+			   <field name="pagamastarde_test_account" type="text" label="VMPAYMENT_PAGAMASTARDE_TEST_ACCOUNT" description="VMPAYMENT_PAGAMASTARDE_TEST_ACCOUNT_DESC"/>
+			   <field name="pagamastarde_test_key" type="text" label="VMPAYMENT_PAGAMASTARDE_TEST_KEY" description="VMPAYMENT_PAGAMASTARDE_TEST_KEY_DESC"/>
+
+         <field name="pagamastarde_real_account" type="text" label="VMPAYMENT_PAGAMASTARDE_REAL_ACCOUNT" description="VMPAYMENT_PAGAMASTARDE_REAL_ACCOUNT_DESC"/>
+			   <field name="pagamastarde_real_key" type="text" label="VMPAYMENT_PAGAMASTARDE_REAL_KEY" description="VMPAYMENT_PAGAMASTARDE_REAL_KEY_DESC"/>
+         <field name="pagamastarde_discount" type="radio" scope="com_virtuemart" default="0" label="VMPAYMENT_PAGAMASTARDE_DISCOUNT" description="VMPAYMENT_PAGAMASTARDE_DISCOUNT_DESC">
+           <option value="false">False</option>
+           <option value="true">True</option>
+         </field>
+
+			</fieldset>
+		</fields>
+    </vmconfig>
+
+</extension>
