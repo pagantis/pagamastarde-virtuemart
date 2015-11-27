@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension version="1.0.0" type="plugin" group="vmpayment" method="upgrade">
+<extension version="3.0" type="plugin" group="vmpayment" method="upgrade">
     <name>Pagamastarde</name>
-    <creationDate>November 4 2015</creationDate>
+    <creationDate>November 23 2015</creationDate>
     <author>PagaMasTarde</author>
     <authorUrl>https://www.pagamastarde.com/</authorUrl>
     <copyright>Copyright (C) 2015 Paga+Tarde</copyright>

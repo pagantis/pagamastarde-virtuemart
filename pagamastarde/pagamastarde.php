@@ -1,8 +1,11 @@
 <?php
 
 /**
- * NOTA SOBRE LA LICENCIA DE USO DEL SOFTWARE
+ * @author     Albert Fatsini - pagamastarde.com
+ * @date       : 23.11.2015
  *
+ * @copyright  Copyright (C) 2015 - 2015 pagamastarde.com . All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 defined ('_JEXEC') or die('Restricted access');
@@ -11,7 +14,7 @@ defined ('_JEXEC') or die('Restricted access');
  * @version: Pagamastarde 1.0.0
  */
 if (!class_exists ('vmPSPlugin')) {
-    require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php');
+    require(JPATH_VM_PLUGINS . DIRECTORY_SEPARATOR . 'vmpsplugin.php');
 }
 
 class plgVmPaymentPagamastarde extends vmPSPlugin {
@@ -84,11 +87,13 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
         $lang->load ($filename, JPATH_ADMINISTRATOR);
 
         if (!class_exists ('VirtueMartModelOrders')) {
-            require(JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'orders.php');
+            require(JPATH_VM_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR . 'orders.php');
         }
         if (!class_exists ('VirtueMartModelCurrency')) {
-            require(JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'currency.php');
+            require(JPATH_VM_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR . 'currency.php');
         }
+
+        $jinput = JFactory::getApplication()->input;
 
         //Account Settings
         $environment = $method->pagamastarde_env;
@@ -109,8 +114,8 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
         '&status=ok'.
         '&on=' .$order['details']['BT']->order_number .
         '&pm=' .$order['details']['BT']->virtuemart_paymentmethod_id .
-        '&Itemid=' . JRequest::getInt ('Itemid') .
-        '&lang='.JRequest::getCmd('lang','');
+        '&Itemid=' . $jinput->get('Itemid','',INT) .
+        '&lang='. $jinput->get('lang','',CMD);
 
         $url_ko = JURI::root () . 'index.php?option=com_virtuemart'.
         '&view=pluginresponse'.
@@ -119,8 +124,8 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
         '&status=ko'.
         '&on=' .$order['details']['BT']->order_number .
             '&pm=' .$order['details']['BT']->virtuemart_paymentmethod_id .
-            '&Itemid=' . JRequest::getInt ('Itemid') .
-            '&lang='.JRequest::getCmd('lang','');
+            '&Itemid=' .  $jinput->get('Itemid','',INT) .
+            '&lang='. $jinput->get('lang','',CMD);
 
         $callback_url=JURI::root () . 'index.php?option=com_virtuemart'.
         '&view=pluginresponse'.
@@ -229,7 +234,7 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
         $order['comments'] = '';
         $modelOrder->updateStatusForOneOrder ($order['details']['BT']->virtuemart_order_id, $order, TRUE);
 
-        JRequest::setVar ('html', $form);
+        $jinput->set('html', $form);
         return TRUE;
 
     }
@@ -257,23 +262,25 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
      */
     function plgVmOnPaymentResponseReceived (&$html) {
 
-        if(empty($_GET['vmethod']) || !$_GET['vmethod'] == "pagantis"){
+      $jinput = JFactory::getApplication()->input;
+
+        if(empty($jinput->get('vmethod')) || !$jinput->get('vmethod') == "pagantis"){
             return NULL;
         }
 
         if (!class_exists('VirtueMartCart')) {
-            require(JPATH_VM_SITE . DS . 'helpers' . DS . 'cart.php');
+            require(JPATH_VM_SITE . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'cart.php');
         }
         if (!class_exists('shopFunctionsF')) {
-            require(JPATH_VM_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
+            require(JPATH_VM_SITE . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'shopfunctionsf.php');
         }
         if (!class_exists('VirtueMartModelOrders')) {
-            require(JPATH_VM_ADMINISTRATOR . DS . 'models' . DS . 'orders.php');
+            require(JPATH_VM_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR . 'orders.php');
         }
 
         // Recuperamos Identificador de pedido
-        $virtuemart_paymentmethod_id = JRequest::getInt('pm', 0);
-        $order_number = JRequest::getString('on', 0);
+        $virtuemart_paymentmethod_id = $jinput->get('pm', 0,INT);
+        $order_number = $jinput->get('on', 0,'STRING');
 
         if (!($method = $this->getVmPluginMethod($virtuemart_paymentmethod_id))) {
             return NULL;
@@ -319,7 +326,7 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
             }
         }
         else {//URL OK Y KO
-            $status = $_GET["status"];
+            $status = $jinput->get("status");
 
             if (!$this->selectedThisElement($method->payment_element)) {
             return NULL;
@@ -455,7 +462,7 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
      * @param object  $cart Cart object
      * @param integer $selected ID of the method selected
      * @return boolean True on succes, false on failures, null when this plugin was not selected.
-     * On errors, JError::raiseWarning (or JError::raiseError) must be used to set a message.
+     * On errors, application->enqueueMessages() must be used to set a message.
      */
     public function plgVmDisplayListFEPayment (VirtueMartCart $cart, $selected = 0, &$htmlIn) {
 
@@ -566,13 +573,13 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
             return FALSE;
         }
         if (!($payments = $this->getDatasByOrderId($virtuemart_order_id))) {
-            // JError::raiseWarning(500, $db->getErrorMsg());
+
             return '';
         }
         if (empty($payments[0]->email_currency)) {
             $vendorId = 1; //VirtueMartModelVendor::getLoggedVendor();
             $db = JFactory::getDBO();
-            $q = 'SELECT   `vendor_currency` FROM `#__virtuemart_vendors` WHERE `virtuemart_vendor_id`=' . $vendorId;
+            $q = 'SELECT vendor_currency FROM #__virtuemart_vendors WHERE virtuemart_vendor_id=' . $vendorId;
             $db->setQuery($q);
             $emailCurrencyId = $db->loadResult();
         } else {
