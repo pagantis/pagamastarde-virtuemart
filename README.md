@@ -1,17 +1,17 @@
-# Módulo de VirtueMart 3 para Joomla 2.5 de pagamasterde.com
+# Módulo de VirtueMart 3 para Joomla 2.5 - 3.x de Paga+Tarde
 
 
 ## Instrucciones de Instalación
 
-1. Crea tu cuenta en Pagantis.com si aún no la tienes [desde aquí](https://bo.pagantis.com/users/sign_up)
+1. Crea tu cuenta en pagamastarde.com si aún no la tienes [desde aquí](https://bo.pagantis.com/users/sign_up)
 2. Descarga el módulo de [aquí](https://github.com/pagantis/pagamastarde-virtuemart/releases/)
 3. Sube el módulo usando el menu de extensiones del panel de administración del Joomla.
 4. Crea el método de pago con la configuración de tu VirtueMart
-4. Configuralo con la información de tu cuenta que encontrarás en [el panel de gestión de PagaMasTarde](https://bo.pagamastarde.com/). Ten en cuenta que para hacer cobros reales deberás activar tu cuenta de Pagantis.
+4. Configuralo con la información de tu cuenta que encontrarás en [el panel de gestión de PagaMasTarde](https://bo.pagamastarde.com/). Ten en cuenta que para hacer cobros reales deberás activar tu cuenta de Paga+Tarde.
 
 ## Modo real y modo de pruebas
 
-Tanto el módulo como Pagantis tienen funcionamiento en real y en modo de pruebas independientes. Debes introducir las credenciales y las URLs de notificación correspondientes al entorno que desees usar.
+Tanto el módulo como Paga+Tarde tienen funcionamiento en real y en modo de pruebas independientes. Debes introducir las credenciales y las URLs de notificación correspondientes al entorno que desees usar.
 
 
 ### Soporte
