@@ -627,3 +627,6 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
         return $this->setOnTablePluginParams ($name, $id, $table);
     }
 }
+
+$document = JFactory::getDocument();
+$document->addScript('https://cdn.pagamastarde.com/pmt-simulator/2/js/pmt-simulator.min.js');
