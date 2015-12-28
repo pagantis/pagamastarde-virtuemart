@@ -11,7 +11,7 @@
 defined ('_JEXEC') or die('Restricted access');
 
 /**
- * @version: Pagamastarde 1.0.0
+ * @version: Pagamastarde 1.0.2
  */
 if (!class_exists ('vmPSPlugin')) {
     require(JPATH_VM_PLUGINS . DIRECTORY_SEPARATOR . 'vmpsplugin.php');
@@ -261,7 +261,6 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
      * @return bool|null|string
      */
     function plgVmOnPaymentResponseReceived (&$html) {
-
       $jinput = JFactory::getApplication()->input;
 
         if(empty($jinput->get('vmethod')) || !$jinput->get('vmethod') == "pagantis"){
@@ -295,6 +294,13 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
 
             if ($data["event"] == 'charge.created' && !empty($data["data"]["order_id"]))
             {
+                $key='';
+                $signature_check = sha1($key.$data['account_id'].$data['api_version'].$data['event'].$data['data']['id']);
+                if ($signature_check != $data['signature'] ){
+                  //hack detected - not implemented
+                  //die( $this->key.$data['account_id'].$data['api_version'].$data['event'].$data['data']['id'] );
+                  //exit;
+                }
                 $virtuemart_order_id = $data["data"]["order_id"];
 
                 $orderModel = VmModel::getModel('orders');
