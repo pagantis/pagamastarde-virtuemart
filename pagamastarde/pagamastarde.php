@@ -130,7 +130,8 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
         $callback_url=JURI::root () . 'index.php?option=com_virtuemart'.
         '&view=pluginresponse'.
         '&task=pluginresponsereceived'.
-        '&vmethod=pagantis';
+        '&vmethod=pagantis'.
+        '&pm=' .$order['details']['BT']->virtuemart_paymentmethod_id ;
         //Order ID
         $order_id = strval($order['details']['BT']->order_number);
 
@@ -278,13 +279,10 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
         }
 
         // Recuperamos Identificador de pedido
-        $virtuemart_paymentmethod_id = $jinput->get('pm', 0,INT);
-        $order_number = $jinput->get('on', 0,'STRING');
-
+        $virtuemart_paymentmethod_id = $jinput->get('pm', 0);
         if (!($method = $this->getVmPluginMethod($virtuemart_paymentmethod_id))) {
             return NULL;
         }
-
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
 
@@ -292,20 +290,26 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
 
             $this->log("Entramos en el CallBack");
 
+            //Account Settings
+            $environment = $method->pagamastarde_env;
+            if($environment == 'test'){
+                $key = $method->pagamastarde_test_key;
+            }else{
+                $key = $method->pagamastarde_real_key;
+            }
             if ($data["event"] == 'charge.created' && !empty($data["data"]["order_id"]))
             {
-                $key='';
                 $signature_check = sha1($key.$data['account_id'].$data['api_version'].$data['event'].$data['data']['id']);
                 if ($signature_check != $data['signature'] ){
-                  //hack detected - not implemented
-                  //die( $this->key.$data['account_id'].$data['api_version'].$data['event'].$data['data']['id'] );
-                  //exit;
+                  //hack detected
+                  $this->log("Hack detected");
+                  exit;
                 }
                 $virtuemart_order_id = $data["data"]["order_id"];
 
                 $orderModel = VmModel::getModel('orders');
-                $orderId = $orderModel->getOrderIdByOrderNumber($virtuemart_order_id);
-                $order = $orderModel->getOrder($orderId);
+                $order_number = $orderModel->getOrderIdByOrderNumber($virtuemart_order_id);
+                $order = $orderModel->getOrder($order_number);
                 $order['order_status'] =  "C";
                 $order['customer_notified'] = 1;
                 $updated = $orderModel->updateStatusForOneOrder ($order['details']['BT']->virtuemart_order_id, $order, TRUE);
@@ -322,8 +326,8 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
                 $virtuemart_order_id = $data["data"]["order_id"];
                 $orderModel = VmModel::getModel('orders');
                 //Don't lose cart
-                $orderId = $orderModel->getOrderIdByOrderNumber($virtuemart_order_id);
-                $order = $orderModel->getOrder($orderId);
+                $order_number = $orderModel->getOrderIdByOrderNumber($virtuemart_order_id);
+                $order = $orderModel->getOrder($order_number);
                 $order['order_status'] =  "X";
                 $order['customer_notified'] = 1;
                 $cart = VirtueMartCart::getCart();
