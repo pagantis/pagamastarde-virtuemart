@@ -11,7 +11,7 @@
 defined ('_JEXEC') or die('Restricted access');
 
 /**
- * @version: Pagamastarde 1.0.2
+ * @version: Pagamastarde 1.1.2
  */
 if (!class_exists ('vmPSPlugin')) {
     require(JPATH_VM_PLUGINS . DIRECTORY_SEPARATOR . 'vmpsplugin.php');
