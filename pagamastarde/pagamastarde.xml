@@ -48,6 +48,10 @@
            <option value="false">False</option>
            <option value="true">True</option>
          </field>
+         <field name="pagamastarde_eom" type="radio" scope="com_virtuemart" default="0" label="VMPAYMENT_PAGAMASTARDE_EOM" description="VMPAYMENT_PAGAMASTARDE_EOM_DESC">
+           <option value="false">False</option>
+           <option value="true">True</option>
+         </field>
 
 			</fieldset>
 		</fields>

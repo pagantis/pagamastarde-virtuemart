@@ -97,7 +97,9 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
 
         //Account Settings
         $environment = $method->pagamastarde_env;
+        $eom = $method->pagamastarde_eom;
         $discount = $method->pagamastarde_discount;
+
         if($environment == 'test'){
             $account_id = $method->pagamastarde_test_account;
             $account_key = $method->pagamastarde_test_key;
@@ -196,7 +198,6 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
               $products .= '<input name="items['.$i.'][amount]" type="hidden" value="'.round($product->prices['salesPrice']*$product->quantity,2).'">';
               $i++;
         }
-
         //HTML necesary to send Paga+Tarde Request
         $form = '<html><head><title>Redirección Paga+Tarde</title></head><body><div style="margin: auto; text-align: center;">';
         $form .='
@@ -219,6 +220,7 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
                 <input type="hidden" name="address[province]"       value="'.$state.'">
                 <input type="hidden" name="address[zipcode]"       value="'.$zip.'">
                 <input type="hidden" name="discount[full]"       value="'.$discount.'">
+                <input type="hidden" name="end_of_month"       value="'.$eom.'">
             ';
         $form .= $products;
         $form .= '<input type="submit"  value="Si no redirige automáticamente a Paga+Tarde, pulse aquí." />
@@ -632,5 +634,6 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
     }
 }
 
+
 $document = JFactory::getDocument();
-$document->addScript('https://cdn.pagamastarde.com/pmt-simulator/2/js/pmt-simulator.min.js');
+$document->addScript(JURI::root().'/plugins/vmpayment/pagamastarde/js/widget.js');
