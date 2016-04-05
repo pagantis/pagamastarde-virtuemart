@@ -163,8 +163,8 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
         $zip = $order['details']['BT']->zip;
 
         //phone
-        $phone = !empty($order['details']['BT']->phone_2)?$order['details']['BT']->phone_2:$order['details']['BT']->phone_1;
-
+        $phone = $order['details']['BT']->phone_1;
+        $mobile_phone =$order['details']['BT']->phone_2;
 
         $this->log("Creating Form");
         $this->log("OrderID:".$order_id);
@@ -215,6 +215,7 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
                 <input type="hidden" name="email"       value="'.$customer_email.'">
                 <input type="hidden" name="callback_url"       value="'.$callback_url.'">
                 <input type="hidden" name="phone"       value="'.$phone.'">
+                <input type="hidden" name="mobile_phone"       value="'.$mobile_phone.'">
                 <input type="hidden" name="address[street]"       value="'.$address.'">
                 <input type="hidden" name="address[city]"       value="'.$city.'">
                 <input type="hidden" name="address[province]"       value="'.$state.'">
