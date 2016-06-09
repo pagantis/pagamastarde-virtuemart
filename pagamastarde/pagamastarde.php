@@ -11,7 +11,7 @@
 defined ('_JEXEC') or die('Restricted access');
 
 /**
- * @version: Pagamastarde 1.1.2
+ * @version: Pagamastarde 1.1.3
  */
 if (!class_exists ('vmPSPlugin')) {
     require(JPATH_VM_PLUGINS . DIRECTORY_SEPARATOR . 'vmpsplugin.php');
@@ -337,6 +337,7 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
         }
         else {//URL OK Y KO
             $status = $jinput->get("status");
+            $order_number = $jinput->get("on");
 
             if (!$this->selectedThisElement($method->payment_element)) {
             return NULL;
