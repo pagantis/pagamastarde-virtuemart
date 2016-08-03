@@ -11,7 +11,7 @@
 defined ('_JEXEC') or die('Restricted access');
 
 /**
- * @version: Pagamastarde 1.1.3
+ * @version: Pagamastarde 1.1.4
  */
 if (!class_exists ('vmPSPlugin')) {
     require(JPATH_VM_PLUGINS . DIRECTORY_SEPARATOR . 'vmpsplugin.php');
@@ -159,6 +159,12 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
         $country = shopfunctions::getCountryByID($order['details']['BT']->virtuemart_country_id,'country_name');
         $state = shopfunctions::getStateByID($order['details']['BT']->virtuemart_state_id,'state_name');
         $zip = $order['details']['BT']->zip;
+        //shipping
+        $saddress = !isset($order['details']['ST']->address_1)? '' :$order['details']['ST']->address_1. " ". $order['details']['ST']->address_2;
+        $scity = !isset($order['details']['ST']->city)? '' : $order['details']['ST']->city;
+        $scountry = !isset($order['details']['ST']->virtuemart_country_id)? '' : shopfunctions::getCountryByID($order['details']['ST']->virtuemart_country_id,'country_name');
+        $sstate = !isset($order['details']['ST']->virtuemart_state_id)? '' :  shopfunctions::getStateByID($order['details']['ST']->virtuemart_state_id,'state_name');
+        $szip = !isset($order['details']['ST']->zip) ? '' : $order['details']['ST']->zip;
 
         //phone
         $phone = $order['details']['BT']->phone_1;
@@ -219,6 +225,10 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
                 <input type="hidden" name="address[city]"       value="'.$city.'">
                 <input type="hidden" name="address[province]"       value="'.$state.'">
                 <input type="hidden" name="address[zipcode]"       value="'.$zip.'">
+                <input type="hidden" name="shipping[street]"       value="'.$saddress.'">
+                <input type="hidden" name="shipping[city]"       value="'.$scity.'">
+                <input type="hidden" name="shipping[province]"       value="'.$sstate.'">
+                <input type="hidden" name="shipping[zipcode]"       value="'.$szip.'">
                 <input type="hidden" name="discount[full]"       value="'.$discount.'">
             ';
         $form .= $products;
@@ -635,4 +645,4 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
 }
 
 $document = JFactory::getDocument();
-$document->addScript('https://cdn.pagamastarde.com/pmt-simulator/2/js/pmt-simulator.min.js');
+$document->addScript('https://cdn.pagamastarde.com/pmt-simulator/3/js/pmt-simulator.min.js');
