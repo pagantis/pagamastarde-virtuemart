@@ -1,6 +1,25 @@
 <updates>
   <update>
      <name>Pagamastarde</name>
+     <description>Paga+Tarde version 1.1.5</description>
+     <element>pagamastarde</element>
+     <type>plugin</type>
+     <client>0</client>
+     <client_id>0</client_id>
+     <folder>vmpayment</folder>
+     <version>1.1.5</version>
+     <downloads>
+         <downloadurl type="full" format="zip">http://demoshop.pagamastarde.com/joomla/plg_pagamastarde_v1.1.5.zip</downloadurl>
+     </downloads>
+     <tags>
+         <tag>stable</tag>
+     </tags>
+     <maintainer>Albert Fatsini</maintainer>
+     <maintainerurl>https://www.pagamastarde.com/</maintainerurl>
+     <targetplatform name="joomla" version="2.5"/>
+  </update>
+  <update>
+     <name>Pagamastarde</name>
      <description>Paga+Tarde version 1.1.4</description>
      <element>pagamastarde</element>
      <type>plugin</type>

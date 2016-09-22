@@ -11,7 +11,7 @@
 defined ('_JEXEC') or die('Restricted access');
 
 /**
- * @version: Pagamastarde 1.1.4
+ * @version: Pagamastarde 1.1.5
  */
 if (!class_exists ('vmPSPlugin')) {
     require(JPATH_VM_PLUGINS . DIRECTORY_SEPARATOR . 'vmpsplugin.php');
@@ -127,6 +127,16 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
             '&Itemid=' .  $jinput->get('Itemid','',INT) .
             '&lang='. $jinput->get('lang','',CMD);
 
+        $cancelled_url = JURI::root () . 'index.php?option=com_virtuemart'.
+        '&view=cart'.
+        '&task=checkout'.
+        '&vmethod=pagantis'.
+        '&status=ko'.
+        '&on=' .$order['details']['BT']->order_number .
+            '&pm=' .$order['details']['BT']->virtuemart_paymentmethod_id .
+            '&Itemid=' .  $jinput->get('Itemid','',INT) .
+            '&lang='. $jinput->get('lang','',CMD);
+
         $callback_url=JURI::root () . 'index.php?option=com_virtuemart'.
         '&view=pluginresponse'.
         '&task=pluginresponsereceived'.
@@ -175,7 +185,7 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
 
 
         //Signature
-        $signature = sha1($account_key.$account_id.$order_id.$order_amount.$currency.$url_ok.$url_ko.$callback_url.$discount);
+        $signature = hash('sha512',$account_key.$account_id.$order_id.$order_amount.$currency.$url_ok.$url_ko.$callback_url.$discount.$cancelled_url);
 
         //Order description
         $description = 'OrderID: '.$order_id;
@@ -197,7 +207,7 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
 
         //Products description
         foreach ($cart->products as $product) {
-              $products .= '<input name="items['.$i.'][description]" type="hidden" value="'.$product->product_name.' ('.$product->quantity.')">';
+              $products .= '<input name="items['.$i.'][description]" type="hidden" value="'.addslashes($product->product_name).'">';
               $products .= '<input name="items['.$i.'][quantity]" type="hidden" value="'.$product->quantity.'">';
               $products .= '<input name="items['.$i.'][amount]" type="hidden" value="'.round($product->prices['salesPrice']*$product->quantity,2).'">';
               $i++;
@@ -211,6 +221,7 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
                 <input type="hidden" name="currency"    value="'.$currency.'" />
                 <input type="hidden" name="ok_url"      value="'.$url_ok.'" />
                 <input type="hidden" name="nok_url"     value="'.$url_ko.'" />
+                <input type="hidden" name="cancelled_url"     value="'.$cancelled_url.'" />
                 <input type="hidden" name="order_id"    value="'.$order_id.'" />
                 <input type="hidden" name="amount"      value="'.$order_amount.'" />
                 <input type="hidden" name="signature"   value="'.$signature.'" />
@@ -311,7 +322,8 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
             if ($data["event"] == 'charge.created' && !empty($data["data"]["order_id"]))
             {
                 $signature_check = sha1($key.$data['account_id'].$data['api_version'].$data['event'].$data['data']['id']);
-                if ($signature_check != $data['signature'] ){
+                $signature_check_512 = hash('sha512',$key.$data['account_id'].$data['api_version'].$data['event'].$data['data']['id']);
+                if ($signature_check != $data['signature'] && $signature_check_512 != $data['signature']){
                   //hack detected
                   $this->log("Hack detected");
                   exit;
