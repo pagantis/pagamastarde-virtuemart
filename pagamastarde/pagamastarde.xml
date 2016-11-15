@@ -48,6 +48,8 @@
            <option value="false">False</option>
            <option value="true">True</option>
          </field>
+         <field name="pagamastarde_min_amount" type="text" size="25" label="VMPAYMENT_PAGAMASTARDE_MIN_AMOUNT" description="VMPAYMENT_PAGAMASTARDE_MIN_AMOUNT_DESC"/>
+         <field name="pagamastarde_max_amount" type="text" size="25" label="VMPAYMENT_PAGAMASTARDE_MAX_AMOUNT" description="VMPAYMENT_PAGAMASTARDE_MAX_AMOUNT_DESC"/>
 
 			</fieldset>
 		</fields>

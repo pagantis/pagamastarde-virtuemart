@@ -427,14 +427,12 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
      *
      */
     protected function checkConditions ($cart, $method, $cart_prices) {
-
         $this->convert_condition_amount($method);
         $amount = $this->getCartAmount($cart_prices);
         $address = (($cart->ST == 0) ? $cart->BT : $cart->ST);
-
-        $amount_cond = ($amount >= $method->min_amount AND $amount <= $method->max_amount
+        $amount_cond = ($amount >= $method->pagamastarde_min_amount AND $amount <= $method->pagamastarde_max_amount
             OR
-            ($method->min_amount <= $amount AND ($method->max_amount == 0)));
+            ($method->pagamastarde_min_amount <= $amount AND ($method->pagamastarde_max_amount == 0)));
         if (!$amount_cond) {
             return FALSE;
         }
@@ -499,8 +497,10 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
      * On errors, application->enqueueMessages() must be used to set a message.
      */
     public function plgVmDisplayListFEPayment (VirtueMartCart $cart, $selected = 0, &$htmlIn) {
-
+      if ($this->checkConditions($cart, $this->_currentMethod, $cart->cartPrices)) {
         return $this->displayListFE ($cart, $selected, $htmlIn);
+      }
+      return true;
     }
 
     /*
