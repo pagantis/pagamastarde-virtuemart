@@ -5,7 +5,7 @@ defined('_JEXEC') or die;
 /**
  * Script file of HelloWorld module
  */
-class pagamastardeInstallerScript
+class pagantisInstallerScript
 {
 	/**
 	 * Method to install the extension

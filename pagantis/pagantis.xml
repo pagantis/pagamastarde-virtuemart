@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension version="2.5" type="plugin" group="vmpayment" method="upgrade">
+    <name>Pagantis</name>
+    <creationDate>November 23 2015</creationDate>
+    <author>Pagantis</author>
+    <authorUrl>https://www.pagantis.com/</authorUrl>
+    <copyright>Copyright (C) 2015 Pagantis</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <version>1.2.1</version>
+    <description>Pagantis Plugin</description>
+    <install> <!-- Runs on install -->
+      	<sql>
+          	<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+    		</sql>
+      </install>
+      <uninstall> <!-- Runs on uninstall -->
+      	<sql>
+          	<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+    		</sql>
+     	</uninstall>
+     	<update> <!-- Runs on update; New in 2.5 -->
+  		<schemas>
+  			<schemapath type="mysql">sql/updates/mysql</schemapath>
+  		</schemas>
+  	</update>
+    <files>
+        <filename plugin="pagantis">pagantis.php</filename>
+        <folder>language</folder>
+        <folder>pagantis</folder>
+        <folder>sql</folder>
+    </files>
+    <scriptfile>script.php</scriptfile>
+    <vmconfig>
+		<fields name="params">
+            <fieldset name="payment" addfieldpath="/administrator/components/com_virtuemart/fields">
+              <field type="vmtitle" default="VMPAYMENT_PAGANTIS_SETUP_SECTION"
+      					   description="VMPAYMENT_PAGANTIS_SETUP_DESC"/>
+			   <field name="pagantis_env" type="radio" scope="com_virtuemart" default="0" label="VMPAYMENT_PAGANTIS_ENV" description="VMPAYMENT_PAGANTIS_ENV">
+					<option value="test">Test</option>
+					<option value="real">Real</option>
+			   </field>
+			   <field name="pagantis_test_account" type="text" size="25" label="VMPAYMENT_PAGANTIS_TEST_ACCOUNT" description="VMPAYMENT_PAGANTIS_TEST_ACCOUNT_DESC"/>
+			   <field name="pagantis_test_key" type="text" size="25" label="VMPAYMENT_PAGANTIS_TEST_KEY" description="VMPAYMENT_PAGANTIS_TEST_KEY_DESC"/>
+
+         <field name="pagantis_real_account" type="text" size="25" label="VMPAYMENT_PAGANTIS_REAL_ACCOUNT" description="VMPAYMENT_PAGANTIS_REAL_ACCOUNT_DESC"/>
+			   <field name="pagantis_real_key" type="text" size="25" label="VMPAYMENT_PAGANTIS_REAL_KEY" description="VMPAYMENT_PAGANTIS_REAL_KEY_DESC"/>
+         <field name="pagantis_discount" type="radio" scope="com_virtuemart" default="0" label="VMPAYMENT_PAGANTIS_DISCOUNT" description="VMPAYMENT_PAGANTIS_DISCOUNT_DESC">
+           <option value="false">False</option>
+           <option value="true">True</option>
+         </field>
+         <field name="pagantis_min_amount" type="text" size="25" label="VMPAYMENT_PAGANTIS_MIN_AMOUNT" description="VMPAYMENT_PAGANTIS_MIN_AMOUNT_DESC"/>
+         <field name="pagantis_max_amount" type="text" size="25" label="VMPAYMENT_PAGANTIS_MAX_AMOUNT" description="VMPAYMENT_PAGANTIS_MAX_AMOUNT_DESC"/>
+
+			</fieldset>
+		</fields>
+    </vmconfig>
+    <!-- UPDATESERVER DEFINITION -->
+  	<updateservers>
+  		<!-- Note: No spaces or linebreaks allowed between the server tags -->
+  		<server type="extension" priority="1" name="Pagantis">http://demoshop.pagantis.com/joomla/update.xml</server>
+  	</updateservers>
+</extension>

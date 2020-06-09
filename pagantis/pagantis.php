@@ -1,27 +1,27 @@
 <?php
 
 /**
- * @author     Albert Fatsini - pagamastarde.com
+ * @author     Albert Fatsini - pagantis.com
  * @date       : 23.11.2015
  *
- * @copyright  Copyright (C) 2015 - 2015 pagamastarde.com . All rights reserved.
+ * @copyright  Copyright (C) 2015 - 2015 pagantis.com . All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 defined ('_JEXEC') or die('Restricted access');
 
 /**
- * @version: Pagamastarde 1.1.5
+ * @version: Pagantis 2.0.0
  */
 if (!class_exists ('vmPSPlugin')) {
     require(JPATH_VM_PLUGINS . DIRECTORY_SEPARATOR . 'vmpsplugin.php');
 }
 
-class plgVmPaymentPagamastarde extends vmPSPlugin {
+class plgVmPaymentPagantis extends vmPSPlugin {
 
-    const PAGAMASTARDE_URL = "https://pmt.pagantis.com/v1/installments";
+    const PAGANTIS_URL = "https://pmt.pagantis.com/v1/installments";
     //Only EUR is allowed
-    const PAGAMASTARDE_CURRENCY = "EUR";
+    const PAGANTIS_CURRENCY = "EUR";
 
     /** @const */
     private static $lang_codes = array("ca","en","es","eu","fr","gl","it","pl","ru");
@@ -44,7 +44,7 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
      */
     public function getVmPluginCreateTableSQL () {
 
-        return $this->createTableSQL ('Payment PagaMasTarde Table');
+        return $this->createTableSQL ('Payment Pagantis Table');
     }
 
     /**
@@ -82,7 +82,13 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
             return FALSE;
         }
 
+        $pagantisAllowedCountries = array("ES", "IT", "FR", "PT");
         $lang = JFactory::getLanguage ();
+        $purchaseCountry = '';
+        $shopLang = strtoupper(substr($lang->getTag(),0,2));
+        if (in_array($shopLang, $pagantisAllowedCountries)) {
+            $purchaseCountry = $shopLang;
+        }
         $filename = 'com_virtuemart';
         $lang->load ($filename, JPATH_ADMINISTRATOR);
 
@@ -96,14 +102,14 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
         $jinput = JFactory::getApplication()->input;
 
         //Account Settings
-        $environment = $method->pagamastarde_env;
-        $discount = $method->pagamastarde_discount;
+        $environment = $method->pagantis_env;
+        $discount = $method->pagantis_discount;
         if($environment == 'test'){
-            $account_id = $method->pagamastarde_test_account;
-            $account_key = $method->pagamastarde_test_key;
+            $account_id = $method->pagantis_test_account;
+            $account_key = $method->pagantis_test_key;
         }else{
-            $account_id = $method->pagamastarde_real_account;
-            $account_key = $method->pagamastarde_real_key;
+            $account_id = $method->pagantis_real_account;
+            $account_key = $method->pagantis_real_key;
         }
 
         //Callback urls
@@ -156,7 +162,7 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
         $order_amount = floatval($order_amount);
 
         //Currency
-        $currency = self::PAGAMASTARDE_CURRENCY;
+        $currency = self::PAGANTIS_CURRENCY;
 
         //Lang code
         $lang_site = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,2);
@@ -167,8 +173,13 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
         $address = $order['details']['BT']->address_1. " ". $order['details']['BT']->address_2;
         $city = $order['details']['BT']->city;
         $country = shopfunctions::getCountryByID($order['details']['BT']->virtuemart_country_id,'country_name');
+        $addrCountryCode =  strtoupper(shopfunctions::getCountryByID($order['details']['BT']->virtuemart_country_id,'country_2_code'));
+        if (in_array($addrCountryCode, $pagantisAllowedCountries)) {
+            $purchaseCountry = $addrCountryCode;
+        }
         $state = shopfunctions::getStateByID($order['details']['BT']->virtuemart_state_id,'state_name');
         $zip = $order['details']['BT']->zip;
+
         //shipping
         $saddress = !isset($order['details']['ST']->address_1)? '' :$order['details']['ST']->address_1. " ". $order['details']['ST']->address_2;
         $scity = !isset($order['details']['ST']->city)? '' : $order['details']['ST']->city;
@@ -213,10 +224,10 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
               $i++;
         }
 
-        //HTML necesary to send Paga+Tarde Request
-        $form = '<html><head><title>Redirección Paga+Tarde</title></head><body><div style="margin: auto; text-align: center;">';
+        //HTML necesary to send Pagantis Request
+        $form = '<html><head><title>Redirección Pagantis</title></head><body><div style="margin: auto; text-align: center;">';
         $form .='
-            <form action="'.self::PAGAMASTARDE_URL.'" method="post" name="vm_pagamastarde_form" id="pagamastarde_form">
+            <form action="'.self::PAGANTIS_URL.'" method="post" name="vm_pagantis_form" id="pagantis_form">
                 <input type="hidden" name="account_id"  value="'.$account_id.'" />
                 <input type="hidden" name="currency"    value="'.$currency.'" />
                 <input type="hidden" name="ok_url"      value="'.$url_ok.'" />
@@ -241,10 +252,11 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
                 <input type="hidden" name="shipping[province]"       value="'.$sstate.'">
                 <input type="hidden" name="shipping[zipcode]"       value="'.$szip.'">
                 <input type="hidden" name="discount[full]"       value="'.$discount.'">
+                <input type="hidden" name="purchase_country"       value="'.$purchaseCountry.'">
             ';
         $form .= $products;
-        $form .= '<input type="submit"  value="Si no redirige automáticamente a Paga+Tarde, pulse aquí." />
-					<script type="text/javascript">document.vm_pagamastarde_form.submit();
+        $form .= '<input type="submit"  value="Si no redirige automáticamente a Pagantis, pulse aquí." />
+					<script type="text/javascript">document.vm_pagantis_form.submit();
           </script>';
         $form .= '</form></div>';
         $form .= '</body></html>';
@@ -258,7 +270,8 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
         $modelOrder->updateStatusForOneOrder ($order['details']['BT']->virtuemart_order_id, $order, TRUE);
 
         $jinput->set('html', $form);
-        return TRUE;
+
+        return true;
 
     }
 
@@ -267,7 +280,7 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
          * Se genera el status inicial del pedido -> "Pending"
          */
     function getNewStatus ($method) {
-        vmInfo (JText::_ ('Paga+Tarde: Pedido en estado "Pending"'));
+        vmInfo (JText::_ ('Pagantis: Pedido en estado "Pending"'));
         if (isset($method->status_pending) and $method->status_pending!="") {
             return $method->status_pending;
         } else {
@@ -313,11 +326,11 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
             $this->log("Entramos en el CallBack");
 
             //Account Settings
-            $environment = $method->pagamastarde_env;
+            $environment = $method->pagantis_env;
             if($environment == 'test'){
-                $key = $method->pagamastarde_test_key;
+                $key = $method->pagantis_test_key;
             }else{
-                $key = $method->pagamastarde_real_key;
+                $key = $method->pagantis_real_key;
             }
             if ($data["event"] == 'charge.created' && !empty($data["data"]["order_id"]))
             {
@@ -371,17 +384,17 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
             }
 
             if ($status == "ok") {
-                $this->log("PAGA+TARDE Pedido Number: ".$order_number.", Pedido Id: ".$virtuemart_order_id.' Finalizado correctamente, mostrando pantalla de éxito');
-                $html = '<img src="'.JURI::root () .'plugins/vmpayment/pagamastarde/pagamastarde/assets/images/pagamastarde.png" width="225"><br><br><br>';
-                $html .= '<h3>El pedido con referencia '.$order_number.' ha finalizado correctamente. Gracias por utilizar Paga+Tarde.</h3>';
+                $this->log("PAGANTIS Pedido Number: ".$order_number.", Pedido Id: ".$virtuemart_order_id.' Finalizado correctamente, mostrando pantalla de éxito');
+                $html = '<img src="'.JURI::root () .'plugins/vmpayment/pagantis/pagantis/assets/images/pagantis.png" width="225"><br><br><br>';
+                $html .= '<h3>El pedido con referencia '.$order_number.' ha finalizado correctamente. Gracias por utilizar Pagantis.</h3>';
                 //Flush cart
                 $cart = VirtueMartCart::getCart();
                 $cart->emptyCart();
             }
             else {
-                $this->log("PAGA+TARDE Pedido Number: ".$order_number.", Pedido Id: ".$virtuemart_order_id.' Finalizado con error, mostrando pantalla de error ');
-                $html = '<img src="'.JURI::root () .'plugins/vmpayment/pagamastarde/pagamastarde/assets/images/pagamastarde.png" width="225"><br><br><br>';
-                $html .='<h3>El pedido con referencia '.$order_number.' ha finalizado con error en la respuesta. Gracias por utilizar Paga+Tarde.</h3>';
+                $this->log("PAGANTIS Pedido Number: ".$order_number.", Pedido Id: ".$virtuemart_order_id.' Finalizado con error, mostrando pantalla de error ');
+                $html = '<img src="'.JURI::root () .'plugins/vmpayment/pagantis/pagantis/assets/images/pagantis.png" width="225"><br><br><br>';
+                $html .='<h3>El pedido con referencia '.$order_number.' ha finalizado con error en la respuesta. Gracias por utilizar Pagantis.</h3>';
                 $html .= '<h3>Su carrito no se ha borrado, puede reintentar su compra.</h3>';
             }
         }
@@ -408,9 +421,9 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
         $html = '<table class="adminlist table">' . "\n";
         $html .= $this->getHtmlHeaderBE ();
         $html .= $this->getHtmlRowBE ('COM_VIRTUEMART_PAYMENT_NAME', $paymentTable->payment_name);
-        $html .= $this->getHtmlRowBE ('PAGAMASTARDE_PAYMENT_TOTAL_CURRENCY', $paymentTable->payment_order_total . ' ' . $paymentTable->payment_currency);
+        $html .= $this->getHtmlRowBE ('PAGANTIS_PAYMENT_TOTAL_CURRENCY', $paymentTable->payment_order_total . ' ' . $paymentTable->payment_currency);
         if ($paymentTable->email_currency) {
-            $html .= $this->getHtmlRowBE ('PAGAMASTARDE_EMAIL_CURRENCY', $paymentTable->email_currency );
+            $html .= $this->getHtmlRowBE ('PAGANTIS_EMAIL_CURRENCY', $paymentTable->email_currency );
         }
         $html .= '</table>' . "\n";
         return $html;
@@ -430,9 +443,9 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
         $this->convert_condition_amount($method);
         $amount = $this->getCartAmount($cart_prices);
         $address = (($cart->ST == 0) ? $cart->BT : $cart->ST);
-        $amount_cond = ($amount >= $method->pagamastarde_min_amount AND $amount <= $method->pagamastarde_max_amount
+        $amount_cond = ($amount >= $method->pagantis_min_amount AND $amount <= $method->pagantis_max_amount
             OR
-            ($method->pagamastarde_min_amount <= $amount AND ($method->pagamastarde_max_amount == 0)));
+            ($method->pagantis_min_amount <= $amount AND ($method->pagantis_max_amount == 0)));
         if (!$amount_cond) {
             return FALSE;
         }
@@ -469,7 +482,7 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
     /**
      * Create the table for this plugin if it does not yet exist.
      * This functions checks if the called plugin is active one.
-     * When yes it is calling the pagamastarde method to create the tables
+     * When yes it is calling the pagantis method to create the tables
      */
     function plgVmOnStoreInstallPaymentPluginTable ($jplugin_id) {
 
@@ -561,7 +574,7 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
     /* TODO ELIMINAR */
     function log($text) {
             // Log
-        $logfilename = 'logs/pagamastarde-log.log';
+        $logfilename = 'logs/pagantis-log.log';
         $fp = @fopen($logfilename, 'a');
         if ($fp) {
             fwrite($fp, date('M d Y G:i:s') . ' -- ' . $text . "\r\n");
@@ -654,7 +667,29 @@ class plgVmPaymentPagamastarde extends vmPSPlugin {
 
         return $this->setOnTablePluginParams ($name, $id, $table);
     }
+    /**
+     * Return the countryname or code of a given countryID
+     *
+     * @author Oscar van Eijk
+     * @access public
+     * @param int $id Country ID
+     * @param char $fld Field to return: country_name (default), country_2_code or country_3_code.
+     * @return string Country name or code
+     */
+    static public function getCountryByID ($id, $fld = 'country_name') {
+
+        if (empty($id)) {
+            return '';
+        }
+
+        $id = (int)$id;
+        $db = JFactory::getDBO ();
+
+        $q = 'SELECT `' . $db->escape ($fld) . '` AS fld FROM `#__virtuemart_countries` WHERE virtuemart_country_id = ' . (int)$id;
+        $db->setQuery ($q);
+        return $db->loadResult ();
+    }
 }
 
 $document = JFactory::getDocument();
-$document->addScript('https://cdn.pagamastarde.com/pmt-simulator/3/js/pmt-simulator.min.js');
+$document->addScript('https://cdn.pagantis.com/pmt-simulator/3/js/pmt-simulator.min.js');
