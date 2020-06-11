@@ -33,24 +33,11 @@
     <vmconfig>
 		<fields name="params">
             <fieldset name="payment" addfieldpath="/administrator/components/com_virtuemart/fields">
-              <field type="vmtitle" default="VMPAYMENT_PAGANTIS_SETUP_SECTION"
-      					   description="VMPAYMENT_PAGANTIS_SETUP_DESC"/>
-			   <field name="pagantis_env" type="radio" scope="com_virtuemart" default="0" label="VMPAYMENT_PAGANTIS_ENV" description="VMPAYMENT_PAGANTIS_ENV">
-					<option value="test">Test</option>
-					<option value="real">Real</option>
-			   </field>
-			   <field name="pagantis_test_account" type="text" size="25" label="VMPAYMENT_PAGANTIS_TEST_ACCOUNT" description="VMPAYMENT_PAGANTIS_TEST_ACCOUNT_DESC"/>
-			   <field name="pagantis_test_key" type="text" size="25" label="VMPAYMENT_PAGANTIS_TEST_KEY" description="VMPAYMENT_PAGANTIS_TEST_KEY_DESC"/>
-
-         <field name="pagantis_real_account" type="text" size="25" label="VMPAYMENT_PAGANTIS_REAL_ACCOUNT" description="VMPAYMENT_PAGANTIS_REAL_ACCOUNT_DESC"/>
-			   <field name="pagantis_real_key" type="text" size="25" label="VMPAYMENT_PAGANTIS_REAL_KEY" description="VMPAYMENT_PAGANTIS_REAL_KEY_DESC"/>
-         <field name="pagantis_discount" type="radio" scope="com_virtuemart" default="0" label="VMPAYMENT_PAGANTIS_DISCOUNT" description="VMPAYMENT_PAGANTIS_DISCOUNT_DESC">
-           <option value="false">False</option>
-           <option value="true">True</option>
-         </field>
-         <field name="pagantis_min_amount" type="text" size="25" label="VMPAYMENT_PAGANTIS_MIN_AMOUNT" description="VMPAYMENT_PAGANTIS_MIN_AMOUNT_DESC"/>
-         <field name="pagantis_max_amount" type="text" size="25" label="VMPAYMENT_PAGANTIS_MAX_AMOUNT" description="VMPAYMENT_PAGANTIS_MAX_AMOUNT_DESC"/>
-
+                <field type="vmtitle" default="VMPAYMENT_PAGANTIS_SETUP_SECTION" description="VMPAYMENT_PAGANTIS_SETUP_DESC"/>
+                <field name="pagantis_account" type="text" size="25" label="VMPAYMENT_PAGANTIS_ACCOUNT" description="VMPAYMENT_PAGANTIS_ACCOUNT_DESC"/>
+                <field name="pagantis_key" type="text" size="25" label="VMPAYMENT_PAGANTIS_KEY" description="VMPAYMENT_PAGANTIS_KEY_DESC"/>
+                <field name="pagantis_min_amount" type="text" size="25" label="VMPAYMENT_PAGANTIS_MIN_AMOUNT" description="VMPAYMENT_PAGANTIS_MIN_AMOUNT_DESC"/>
+                <field name="pagantis_max_amount" type="text" size="25" label="VMPAYMENT_PAGANTIS_MAX_AMOUNT" description="VMPAYMENT_PAGANTIS_MAX_AMOUNT_DESC"/>
 			</fieldset>
 		</fields>
     </vmconfig>

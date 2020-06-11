@@ -101,16 +101,8 @@ class plgVmPaymentPagantis extends vmPSPlugin {
 
         $jinput = JFactory::getApplication()->input;
 
-        //Account Settings
-        $environment = $method->pagantis_env;
-        $discount = $method->pagantis_discount;
-        if($environment == 'test'){
-            $account_id = $method->pagantis_test_account;
-            $account_key = $method->pagantis_test_key;
-        }else{
-            $account_id = $method->pagantis_real_account;
-            $account_key = $method->pagantis_real_key;
-        }
+        $account_id = $method->pagantis_account;
+        $account_key = $method->pagantis_key;
 
         //Callback urls
         $url_ok = JURI::root () . 'index.php?option=com_virtuemart'.
@@ -326,12 +318,7 @@ class plgVmPaymentPagantis extends vmPSPlugin {
             $this->log("Entramos en el CallBack");
 
             //Account Settings
-            $environment = $method->pagantis_env;
-            if($environment == 'test'){
-                $key = $method->pagantis_test_key;
-            }else{
-                $key = $method->pagantis_real_key;
-            }
+            $key = $method->pagantis_key;
             if ($data["event"] == 'charge.created' && !empty($data["data"]["order_id"]))
             {
                 $signature_check = sha1($key.$data['account_id'].$data['api_version'].$data['event'].$data['data']['id']);
