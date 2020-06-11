@@ -1,6 +1,22 @@
 <updates>
   <update>
-     <name>Pagamastarde</name>
+   <name>Pagantis</name>
+     <description>Pagantis version 2.0.0</description>
+     <element>pagantis</element>
+     <type>plugin</type>
+     <client>0</client>
+     <client_id>0</client_id>
+     <folder>vmpayment</folder>
+     <version>1.2.1</version>
+     <tags>
+         <tag>stable</tag>
+     </tags>
+     <maintainer>Integrations@pagantis.com</maintainer>
+     <maintainerurl>https://www.pagantis.com/</maintainerurl>
+     <targetplatform name="joomla" version="2.5"/>
+  </update>
+  <update>
+   <name>Paga+Tarde</name>
      <description>Paga+Tarde version 1.2.1</description>
      <element>pagamastarde</element>
      <type>plugin</type>
@@ -9,17 +25,17 @@
      <folder>vmpayment</folder>
      <version>1.2.1</version>
      <downloads>
-         <downloadurl type="full" format="zip">http://demoshop.pagamastarde.com/joomla/plg_pagamastarde_v1.2.1.zip</downloadurl>
+         <downloadurl type="full" format="zip">http://demoshop.pagantis.com/joomla/plg_pagantis_v1.2.1.zip</downloadurl>
      </downloads>
      <tags>
          <tag>stable</tag>
      </tags>
      <maintainer>Albert Fatsini</maintainer>
-     <maintainerurl>https://www.pagamastarde.com/</maintainerurl>
+     <maintainerurl>https://www.pagantis.com/</maintainerurl>
      <targetplatform name="joomla" version="2.5"/>
   </update>
   <update>
-     <name>Pagamastarde</name>
+   <name>Paga+Tarde</name>
      <description>Paga+Tarde version 1.1.5</description>
      <element>pagamastarde</element>
      <type>plugin</type>
@@ -28,17 +44,17 @@
      <folder>vmpayment</folder>
      <version>1.1.5</version>
      <downloads>
-         <downloadurl type="full" format="zip">http://demoshop.pagamastarde.com/joomla/plg_pagamastarde_v1.1.5.zip</downloadurl>
+         <downloadurl type="full" format="zip">http://demoshop.pagantis.com/joomla/plg_pagantis_v1.1.5.zip</downloadurl>
      </downloads>
      <tags>
          <tag>stable</tag>
      </tags>
      <maintainer>Albert Fatsini</maintainer>
-     <maintainerurl>https://www.pagamastarde.com/</maintainerurl>
+     <maintainerurl>https://www.pagantis.com/</maintainerurl>
      <targetplatform name="joomla" version="2.5"/>
   </update>
   <update>
-     <name>Pagamastarde</name>
+   <name>Paga+Tarde</name>
      <description>Paga+Tarde version 1.1.4</description>
      <element>pagamastarde</element>
      <type>plugin</type>
@@ -47,17 +63,17 @@
      <folder>vmpayment</folder>
      <version>1.1.4</version>
      <downloads>
-         <downloadurl type="full" format="zip">http://demoshop.pagamastarde.com/joomla/plg_pagamastarde_v1.1.4.zip</downloadurl>
+         <downloadurl type="full" format="zip">http://demoshop.pagantis.com/joomla/plg_pagantis_v1.1.4.zip</downloadurl>
      </downloads>
      <tags>
          <tag>stable</tag>
      </tags>
      <maintainer>Albert Fatsini</maintainer>
-     <maintainerurl>https://www.pagamastarde.com/</maintainerurl>
+     <maintainerurl>https://www.pagantis.com/</maintainerurl>
      <targetplatform name="joomla" version="2.5"/>
   </update>
   <update>
-     <name>Pagamastarde</name>
+   <name>Paga+Tarde</name>
      <description>Paga+Tarde version 1.1.3</description>
      <element>pagamastarde</element>
      <type>plugin</type>
@@ -66,17 +82,17 @@
      <folder>vmpayment</folder>
      <version>1.1.3</version>
      <downloads>
-         <downloadurl type="full" format="zip">http://demoshop.pagamastarde.com/joomla/plg_pagamastarde_v1.1.3.zip</downloadurl>
+         <downloadurl type="full" format="zip">http://demoshop.pagantis.com/joomla/plg_pagantis_v1.1.3.zip</downloadurl>
      </downloads>
      <tags>
          <tag>stable</tag>
      </tags>
      <maintainer>Albert Fatsini</maintainer>
-     <maintainerurl>https://www.pagamastarde.com/</maintainerurl>
+     <maintainerurl>https://www.pagantis.com/</maintainerurl>
      <targetplatform name="joomla" version="2.5"/>
   </update>
   <update>
-     <name>Pagamastarde</name>
+   <name>Paga+Tarde</name>
      <description>Paga+Tarde version 1.1.2</description>
      <element>pagamastarde</element>
      <type>plugin</type>
@@ -85,17 +101,17 @@
      <folder>vmpayment</folder>
      <version>1.1.2</version>
      <downloads>
-         <downloadurl type="full" format="zip">http://demoshop.pagamastarde.com/joomla/plg_pagamastarde_v1.1.2.zip</downloadurl>
+         <downloadurl type="full" format="zip">http://demoshop.pagantis.com/joomla/plg_pagantis_v1.1.2.zip</downloadurl>
      </downloads>
      <tags>
          <tag>stable</tag>
      </tags>
      <maintainer>Albert Fatsini</maintainer>
-     <maintainerurl>https://www.pagamastarde.com/</maintainerurl>
+     <maintainerurl>https://www.pagantis.com/</maintainerurl>
      <targetplatform name="joomla" version="2.5"/>
   </update>
   <update>
-     <name>Pagamastarde</name>
+   <name>Paga+Tarde</name>
      <description>Paga+Tarde version 1.1.1</description>
      <element>pagamastarde</element>
      <type>plugin</type>
@@ -104,17 +120,17 @@
      <folder>vmpayment</folder>
      <version>1.1.1</version>
      <downloads>
-         <downloadurl type="full" format="zip">http://demoshop.pagamastarde.com/joomla/plg_pagamastarde_v1.1.1.zip</downloadurl>
+         <downloadurl type="full" format="zip">http://demoshop.pagantis.com/joomla/plg_pagantis_v1.1.1.zip</downloadurl>
      </downloads>
      <tags>
          <tag>stable</tag>
      </tags>
      <maintainer>Albert Fatsini</maintainer>
-     <maintainerurl>https://www.pagamastarde.com/</maintainerurl>
+     <maintainerurl>https://www.pagantis.com/</maintainerurl>
      <targetplatform name="joomla" version="2.5"/>
   </update>
 <update>
-   <name>Pagamastarde</name>
+   <name>Paga+Tarde</name>
    <description>Paga+Tarde version 1.0.3</description>
    <element>pagamastarde</element>
    <type>plugin</type>
@@ -123,17 +139,17 @@
    <folder>vmpayment</folder>
    <version>1.0.3</version>
    <downloads>
-       <downloadurl type="full" format="zip">http://demoshop.pagamastarde.com/joomla/plg_pagamastarde_v1.0.3.zip</downloadurl>
+       <downloadurl type="full" format="zip">http://demoshop.pagantis.com/joomla/plg_pagantis_v1.0.3.zip</downloadurl>
    </downloads>
    <tags>
        <tag>stable</tag>
    </tags>
    <maintainer>Albert Fatsini</maintainer>
-   <maintainerurl>https://www.pagamastarde.com/</maintainerurl>
+   <maintainerurl>https://www.pagantis.com/</maintainerurl>
    <targetplatform name="joomla" version="2.5"/>
 </update>
 <update>
-   <name>Pagamastarde</name>
+   <name>Paga+Tarde</name>
    <description>Paga+Tarde version 1.0.2</description>
    <element>pagamastarde</element>
    <type>plugin</type>
@@ -142,17 +158,17 @@
    <folder>vmpayment</folder>
    <version>1.0.2</version>
    <downloads>
-       <downloadurl type="full" format="zip">http://demoshop.pagamastarde.com/joomla/plg_pagamastarde_v1.0.2.zip</downloadurl>
+       <downloadurl type="full" format="zip">http://demoshop.pagantis.com/joomla/plg_pagantis_v1.0.2.zip</downloadurl>
    </downloads>
    <tags>
        <tag>stable</tag>
    </tags>
    <maintainer>Albert Fatsini</maintainer>
-   <maintainerurl>https://www.pagamastarde.com/</maintainerurl>
+   <maintainerurl>https://www.pagantis.com/</maintainerurl>
    <targetplatform name="joomla" version="2.5"/>
 </update>
 <update>
-   <name>Pagamastarde</name>
+   <name>Paga+Tarde</name>
    <description>Paga+Tarde version 1.0.1</description>
    <element>pagamastarde</element>
    <type>plugin</type>
@@ -161,17 +177,17 @@
    <folder>vmpayment</folder>
    <version>1.0.1</version>
    <downloads>
-       <downloadurl type="full" format="zip">http://demoshop.pagamastarde.com/joomla/plg_pagamastarde_v1.0.1.zip</downloadurl>
+       <downloadurl type="full" format="zip">http://demoshop.pagantis.com/joomla/plg_pagantis_v1.0.1.zip</downloadurl>
    </downloads>
    <tags>
        <tag>stable</tag>
    </tags>
    <maintainer>Albert Fatsini</maintainer>
-   <maintainerurl>https://www.pagamastarde.com/</maintainerurl>
+   <maintainerurl>https://www.pagantis.com/</maintainerurl>
    <targetplatform name="joomla" version="2.5"/>
 </update>
 <update>
-   <name>Pagamastarde</name>
+   <name>Paga+Tarde</name>
    <description>Paga+Tarde version 1.0.0</description>
    <element>pagamastarde</element>
    <type>plugin</type>
@@ -180,13 +196,13 @@
    <folder>vmpayment</folder>
    <version>1.0.0</version>
    <downloads>
-       <downloadurl type="full" format="zip">http://demoshop.pagamastarde.com/joomla/plg_pagamastarde_v1.0.0.zip</downloadurl>
+       <downloadurl type="full" format="zip">http://demoshop.pagantis.com/joomla/plg_pagantis_v1.0.0.zip</downloadurl>
    </downloads>
    <tags>
        <tag>stable</tag>
    </tags>
    <maintainer>Albert Fatsini</maintainer>
-   <maintainerurl>https://www.pagamastarde.com/</maintainerurl>
+   <maintainerurl>https://www.pagantis.com/</maintainerurl>
    <targetplatform name="joomla" version="2.5"/>
 </update>
 </updates>
